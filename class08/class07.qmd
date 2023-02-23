@@ -1,0 +1,136 @@
+---
+title: "class07"
+author: "Nikan Ostovan"
+format: pdf
+editor: visual
+---
+
+## intro to machine learning
+
+in this class we will explore clutstring and dimensionality reduction methods. 
+
+##k-means
+number of clusters we want.
+
+make up some input data where we know the answer shoulbe be
+```{r}
+tmp = c(rnorm(30, -3), rnorm(30, 3))
+x = cbind(x = tmp, y = rev(tmp))
+head(x)
+plot(x)
+```
+
+ucsd the kmeans function with k =2 and nstart = 20
+```{r}
+km = kmeans(x, centers = 2, nstart = 20)
+km
+```
+
+how many  points in each cluster
+```{r}
+km$size
+```
+
+what omponent of your result objects details cluseter assignment/membership.
+-and cluster center
+
+```{r}
+km$cluster
+km$centers
+```
+
+plot x colored b the kmeans cluster assinemnt and add centers as blue points
+
+```{r}
+plot(x, col = km$cluster)
+points(km$centers, col = "blue", pch = 15, cex = 2)
+
+```
+
+
+this is anoter very useful and widely employed clustring method whih has the advantage over kmeans in that it can help reveal the something of the true grouping in your data. 
+
+hclusts function wants a distance matrix as input. and we get this from the dist function
+```{r}
+d = dist(x)
+hc = hclust(d)
+hc
+```
+there is a plot moethod for hclust results
+
+```{r}
+plot(hc)
+abline(h=10, col = 2)
+```
+to get my cluster membership beoter i need to cut my tree to yield subtrees or branches with all the members of a given cluster resising on the same cut branch.using the cutree function
+```{r}
+grps = cutree(hc, h = 10)
+grps
+plot(x,  col = grps)
+```
+
+```{r}
+cutree(hc, k = 4)
+```
+it is often helpful to use the k= argument to cutree rather than the h= height of cutting. this will cue the tree to yield the number of clusters you want. 
+
+
+
+
+#principal component analysis (PCA)
+
+the R function for PCA is callded prcomp() 
+
+PCA of UK food data, the 17d data set 
+import data
+```{r}
+url <- "https://tinyurl.com/UK-foods"
+x <- read.csv(url)
+head(x)
+```
+
+
+```{r}
+dim(x)
+rownames(x) <- x[,1]
+x <- x[,-1]
+head(x)
+```
+
+Q2: the one with the optional argument seems more robust and prone to mistakes
+Q3: beside argument will change that 
+
+
+```{r}
+barplot(as.matrix(x), beside=F, col=rainbow(nrow(x)))
+
+pairs(x, col=rainbow(10), pch=16)
+```
+Q5: if are on the diagonal they are correlated but if they are not they are skewed between the different countries. 
+
+Q6: plots with irelend vs all other countries are not as diagonal, as a result N. Ireland is different thant the other countries 
+
+```{r}
+pca = prcomp(t(x))
+summary(pca)
+```
+
+
+A PCA plot aka score plot, PC1 vs PC2 plot, etc...
+
+```{r}
+pca$x
+plot(pca$x[,1], pca$x[,2], col = (c("orange", "red", "blue", "darkgreen")), pch = 17)
+```
+
+
+
+
+
+
+
+
+
+
+
+
