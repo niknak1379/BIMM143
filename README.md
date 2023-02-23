@@ -1,2 +1,2 @@
 # BIMM143
-whats good bruh
+my classwork from bimm143 at UC San Diego. 
