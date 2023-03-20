@@ -1,0 +1,92 @@
+---
+title: "class 5: Data Visulalization"
+author: "Nikan"
+format: pdf
+---
+
+# Plotting in R
+
+R has multiple plotting and graphics systems. The most popular of which is **ggplot2**.
+
+we have already played with "base" R graphics. this comes along with R "out of the box".
+
+```{r}
+plot(cars)
+```
+
+compared to base R plots ggplot is much more verbose - I need to write more code to get simple plots like the above.
+
+have to first install ggplts
+
+the install is a onetime only requirement. package is now on our computer. no need to reinstall. does have to be loaded into the project tho by calling `library()`.
+
+```{r}
+library(ggplot2)
+```
+
+```{r}
+ggplot(cars)
+```
+
+all ggplot figures need at least 3 things: - data(this is the data.frame with our numbers ) - aesthetics ("aes", how our data mpas to the plot) - geomes (do want lines, points, columns, etc... )
+
+```{r}
+ggplot(data = cars) +
+  aes(x=speed, y = dist) +
+  geom_point()
+```
+
+i want a trend line to show the relationship between speed and stopping distance
+
+```{r}
+ggplot(data = cars) +
+  aes(x=speed, y = dist) +
+  geom_point() +
+  geom_line()
+```
+
+thats not what we want
+
+```{r}
+ggplot(data = cars) +
+  aes(x=speed, y = dist) +
+  geom_point() + 
+  geom_smooth()
+```
+
+```{r}
+url <- "https://bioboot.github.io/bimm143_S20/class-material/up_down_expression.txt"
+genes <- read.delim(url)
+head(genes)
+ggplot(genes) + 
+  aes(x=Condition1, y=Condition2) +
+  geom_point()
+```
+
+```{r}
+p <- ggplot(genes) + 
+  aes(x=Condition1, y=Condition2, col=State) +
+  geom_point()
+p
+```
+
+```{r}
+p + scale_colour_manual( values=c("blue","gray","red") )
+```
+
+```{r}
+p + scale_colour_manual(values=c("blue","gray","red")) +
+    labs(title="Gene Expresion Changes Upon Drug Treatment",
+         x="Control (no drug) ",
+         y="Drug Treatment")
+```
+
+
+
+
+
+
+
+
+
+
